@@ -45,6 +45,7 @@ public class BitbucketBuilds {
         String fullBuildUrl = getBuildUrl(buildUrl);
         BuildState state = result == Result.SUCCESS ? BuildState.SUCCESSFUL : BuildState.FAILED;
         repository.setBuildStatus(cause, state, fullBuildUrl);
+        repository.postPullRequestComment(cause.getPullRequestId(), state.toString());
 
         if (this.trigger.getApproveIfSuccess() && result == Result.SUCCESS) {
             this.repository.postPullRequestApproval(cause.getPullRequestId());

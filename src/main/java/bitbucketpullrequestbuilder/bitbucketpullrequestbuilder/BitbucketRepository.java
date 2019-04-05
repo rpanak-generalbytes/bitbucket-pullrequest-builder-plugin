@@ -221,6 +221,10 @@ public class BitbucketRepository {
         this.client.postPullRequestApproval(pullRequestId);
     }
 
+    public AbstractPullrequest.Comment postPullRequestComment(String pullRequestId, String content) {
+        return this.client.postPullRequestComment(pullRequestId, content);
+    }
+
     public String getMyBuildTag(String buildKey) {
       return "#" + this.client.buildStatusKey(buildKey);
     }
@@ -251,7 +255,7 @@ public class BitbucketRepository {
       List<String> builds = this.getAvailableBuildTagsFromTTPComment(content);
       builds.add(this.getMyBuildTag(buildKey));
       content += " " + String.format(CONTENT_PART_TEMPLATE, StringUtils.join(builds, " "));
-      logger.log(Level.FINE, "Post comment: {0} with original content {1}", new Object[]{ content, this.client.postPullRequestComment(pullRequestId, content).getId() });
+      logger.log(Level.FINE, "Post comment: {0} with original content {1}", new Object[]{ content, postPullRequestComment(pullRequestId, content).getId() });
     }
 
     private boolean isTTPComment(String content) {
